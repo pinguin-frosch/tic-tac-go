@@ -17,7 +17,7 @@ func main() {
 		player := players[i]
 		board.printBoard()
 
-		fmt.Println(fmt.Sprintf("%s (%s)", player.name, player.symbol))
+		fmt.Printf("%s (%s)\n", player.name, player.symbol)
 		fmt.Print("Enter row and column tile: ")
 
 		var row, col int
@@ -31,13 +31,12 @@ func main() {
 			}
 		}
 
-		board.usedTiles++
-		board.tiles[row][col] = player.symbol
+		board.writeSymbol(row, col, player.symbol)
 
 		state := board.checkWin(row, col, player.symbol)
 		if state == 1 {
 			board.printBoard()
-			fmt.Println(fmt.Sprintf("%s (%s) wins!", player.name, player.symbol))
+			fmt.Printf("%s (%s) wins!\n", player.name, player.symbol)
 			break
 		} else if state == -1 {
 			board.printBoard()
@@ -55,6 +54,11 @@ type Player struct {
 type Board struct {
 	tiles     [3][3]string
 	usedTiles uint
+}
+
+func (b Board) writeSymbol(row int, col int, symbol string) {
+	b.usedTiles++
+	b.tiles[row][col] = symbol
 }
 
 func (b Board) validTile(row int, col int) bool {
