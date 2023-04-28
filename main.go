@@ -8,11 +8,43 @@ func main() {
 	firstPlayer := Player{"X", "Player 1"}
 	secondPlayer := Player{"O", "Player 2"}
 
-	fmt.Println(fmt.Sprintf("Player 1 has %s", firstPlayer.symbol))
-	fmt.Println(fmt.Sprintf("Player 2 has %s", secondPlayer.symbol))
+	fmt.Println("Tic Tac Go!")
 
+	players := [2]Player{firstPlayer, secondPlayer}
 	var board Board
-	board.printBoard()
+
+	for i := 0; true; i = (i + 1) % 2 {
+		player := players[i]
+		board.printBoard()
+
+		fmt.Println(fmt.Sprintf("%s (%s)", player.name, player.symbol))
+		fmt.Print("Enter row and column tile: ")
+
+		var row, col int
+
+		for {
+			fmt.Scanf("%d %d", &row, &col)
+			if board.validTile(row, col) {
+				break
+			} else {
+				fmt.Print("Invalid tile location! Try again: ")
+			}
+		}
+
+		board.usedTiles++
+		board.tiles[row][col] = player.symbol
+
+		state := board.checkWin(row, col, player.symbol)
+		if state == 1 {
+			board.printBoard()
+			fmt.Println(fmt.Sprintf("%s (%s) wins!", player.name, player.symbol))
+			break
+		} else if state == -1 {
+			board.printBoard()
+			fmt.Println("It's a tie!")
+			break
+		}
+	}
 }
 
 type Player struct {
