@@ -5,9 +5,19 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello, World!")
+	firstPlayer := Player{"X", "Player 1"}
+	secondPlayer := Player{"O", "Player 2"}
+
+	fmt.Println(fmt.Sprintf("Player 1 has %s", firstPlayer.symbol))
+	fmt.Println(fmt.Sprintf("Player 2 has %s", secondPlayer.symbol))
+
 	var board Board
 	board.printBoard()
+}
+
+type Player struct {
+	symbol string
+	name   string
 }
 
 type Board struct {
